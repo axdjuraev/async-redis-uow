@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "async-redis-uow"
+version = "0.1.0"
+description = ""
+authors = ["axdjuraev <axdjuraev@gmail.com>"]
+readme = "README.md"
+packages = [{include = "async_redis_uow"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
