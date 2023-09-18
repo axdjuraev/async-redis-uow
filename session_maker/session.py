@@ -1,4 +1,3 @@
-import redis.asyncio as redis
 from typing import Protocol, runtime_checkable
 from redis.asyncio.client import Pipeline
 from axabc.db.session_mapper import LazySession as _LazySession
