@@ -1,6 +1,5 @@
 from typing import Protocol, runtime_checkable
 from redis.asyncio.client import Pipeline
-from axabc.db.session_mapper import LazySession as _LazySession
 
 
 @runtime_checkable
@@ -9,12 +8,12 @@ class ExecuteAbleQuery(Protocol):
         raise NotImplementedError
 
 
-class LazySession(_LazySession, Pipeline):
-    async def execute(self, query: ExecuteAbleQuery):
-        return await query.execute()
+class LazySession(Pipeline):
+    async def execute(self):
+        return await super().execute()
 
     async def commit(self):
-        return self.save()
+        return await super().execute()
 
     async def rollback(self):
         return await super().discard()

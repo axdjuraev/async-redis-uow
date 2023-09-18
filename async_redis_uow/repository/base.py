@@ -10,15 +10,17 @@ class BaseRepoCreator(AbstractAsyncRepository, Generic[TIModel, TOModel]):
     OSchema: Type[TOModel]
 
     __hname__: Optional[str] = None
-    __abstract__ = False
+    __abstract__ = True
 
     def __init__(self, session: LazySession) -> None:
         self.session = session
 
     def __init_subclass__(cls) -> None:
-        if cls.__abstract__ or cls is BaseRepoCreator:
-            types = getattr(cls, "__orig_bases__")[0].__args__
-            cls.Schema, cls.OSchema = types
+        if cls.__abstract__ and '__abstract__' in cls.__dict__:
+            return
+
+        types = getattr(cls, "__orig_bases__")[0].__args__
+        cls.Schema, cls.OSchema = types
 
     @property
     def hname(self):
