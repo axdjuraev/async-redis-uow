@@ -1,4 +1,3 @@
-from uuid import uuid4
 from typing import Generic
 from .types import TIModel, TOModel
 from .base import BaseRepoCreator
@@ -15,7 +14,4 @@ class AdderRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]):
             Path(f'$.{id}').strPath,
             obj.dict(),
         )
-
-    async def get(self, *identifiers):
-        return await super().get(*identifiers)
 
