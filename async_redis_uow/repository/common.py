@@ -4,7 +4,7 @@ from .adder import AdderRepo
 from .getter import GetterRepo
 from .updateter import UpdateterRepo
 from .deleter import DeleterRepo
-from .all_getter import AllGetterRepo
+from .paginated import PaginatedRepo
 from .status_updater import StatusUpdaterRepo
 
 
@@ -14,7 +14,7 @@ class BaseRepository(
     UpdateterRepo[TIModel, TOModel], 
     Generic[TIModel, TOModel],
     DeleterRepo[TIModel, TOModel],
-    AllGetterRepo[TIModel, TOModel],
+    PaginatedRepo[TIModel, TOModel],
     StatusUpdaterRepo[TIModel, TOModel],
 ):
     __abstract__ = True
