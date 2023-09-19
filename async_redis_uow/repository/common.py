@@ -4,6 +4,7 @@ from .adder import AdderRepo
 from .getter import GetterRepo
 from .updateter import UpdateterRepo
 from .deleter import DeleterRepo
+from .all_getter import AllGetterRepo
 
 
 class BaseRepository(
@@ -12,7 +13,7 @@ class BaseRepository(
     UpdateterRepo[TIModel, TOModel], 
     Generic[TIModel, TOModel],
     DeleterRepo[TIModel, TOModel],
+    AllGetterRepo[TIModel, TOModel],
 ):
     __abstract__ = True
-
 
