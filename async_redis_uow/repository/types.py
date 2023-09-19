@@ -1,5 +1,5 @@
 from typing import TypeVar
-from pydantic import BaseModel
+from async_redis_uow.schemas import BaseModel
 
 
 TIModel = TypeVar("TIModel", bound=BaseModel)
