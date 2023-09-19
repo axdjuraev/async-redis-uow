@@ -1,5 +1,6 @@
 import json
-from typing import Optional, Type, Generic
+from typing import Optional, Type, Generic, Union
+from uuid import uuid4
 from axabc.db.async_repository import AbstractAsyncRepository
 from async_redis_uow.session_maker.session import LazySession 
 from .types import TIModel, TOModel
@@ -21,6 +22,9 @@ class BaseRepoCreator(AbstractAsyncRepository, Generic[TIModel, TOModel]):
 
         types = getattr(cls, "__orig_bases__")[0].__args__
         cls.Schema, cls.OSchema = types
+
+    def get_obj_id(self, obj: Union[TIModel, TOModel]):
+        return _ if hasattr(obj, 'id') and (_ := getattr(obj, 'id')) else str(uuid4())
 
     @property
     def hname(self):
