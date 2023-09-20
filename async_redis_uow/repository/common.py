@@ -13,11 +13,11 @@ class BaseRepository(
     AdderRepo[TIModel, TOModel], 
     GetterRepo[TIModel, TOModel], 
     UpdateterRepo[TIModel, TOModel], 
-    Generic[TIModel, TOModel],
     DeleterRepo[TIModel, TOModel],
     PaginatedRepo[TIModel, TOModel],
     StatusUpdaterRepo[TIModel, TOModel],
     PaginatedAllGetterRepo[TIModel, TOModel],
+    Generic[TIModel, TOModel],
 ):
     __abstract__ = True
 
