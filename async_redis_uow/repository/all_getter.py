@@ -12,8 +12,8 @@ class AllGetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]
     async def all(self, filters: str = ''):
         objs = await self.session.json().get(
             self.hname, 
-            Path(f'${filters}').strPath,
+            Path(f'$.[*]{filters}').strPath,
         ).execute()  # type: ignore
 
-        return parse_obj_as(List[self.OSchema], objs)
+        return parse_obj_as(List[self.OSchema], objs[-1])
 
