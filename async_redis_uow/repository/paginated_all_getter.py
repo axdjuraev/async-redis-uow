@@ -6,7 +6,7 @@ from .all_getter import AllGetterRepo
 class PaginatedAllGetterRepo(AllGetterRepo[TIModel, TOModel], Generic[TIModel, TOModel]):
     __abstract__ = True
 
-    async def page(self, filters: str = '', count: Optional[int] = None, page: Optional[int] = None) -> List[TOModel]:
+    async def page(self, filters: Optional[str] = None, count: Optional[int] = None, page: Optional[int] = None) -> List[TOModel]:
         objs = await self.all(filters)
 
         if count and page:
