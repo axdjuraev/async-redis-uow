@@ -10,7 +10,7 @@ class AdderRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]):
 
     async def add(self, obj: TIModel):
         id = self.get_obj_id(obj)
-        return self.session.json().set(
+        self.session.json().set(
             self.hname, 
             Path(f'$.{id}').strPath,
             json.loads(obj.json()),
