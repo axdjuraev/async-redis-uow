@@ -15,4 +15,5 @@ class AdderRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]):
             Path(f'$.{id}').strPath,
             json.loads(obj.json()),
         )
+        return obj
 
