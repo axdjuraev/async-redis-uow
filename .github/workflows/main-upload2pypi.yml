@@ -2,7 +2,7 @@ name: Upload to PyPI
 on:
   push:
     branches:
-      - main
+      - ship 
 
 jobs:
   build:
@@ -43,7 +43,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           author_email: "axdjuraev@gmail.com"
           author_name: "axdjuraev"
-          branch: "main"
+          branch: "ship"
           message: "bump-version"
           directory: .
 
