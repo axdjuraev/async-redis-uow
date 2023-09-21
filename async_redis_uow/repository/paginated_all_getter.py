@@ -7,7 +7,8 @@ class PaginatedAllGetterRepo(AllGetterRepo[TIModel, TOModel], Generic[TIModel, T
     __abstract__ = True
 
     async def page(self, filters: Optional[str] = None, count: Optional[int] = None, page: Optional[int] = None) -> List[TOModel]:
-        objs = await self.all(filters)
+        print(f'axlog: {filters=};')
+        objs = await super().all(filters)
 
         if count and page:
             return objs[(count or 1) * page - count:count]
