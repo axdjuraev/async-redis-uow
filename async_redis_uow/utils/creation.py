@@ -2,6 +2,7 @@ from redis.commands.json.path import Path
 from axabc.db import AsyncUOWFactory
 from async_redis_uow.repository.common import BaseRepository
 from async_redis_uow.session_maker.session import LazySession
+from async_redis_uow.session_maker.session import LazySession
 
 
 async def create_models(uowf: AsyncUOWFactory):
@@ -11,7 +12,7 @@ async def create_models(uowf: AsyncUOWFactory):
             if not isinstance(repo, BaseRepository):
                 continue
 
-            repo_session = repo.session
+            repo_session: LazySession = repo.session
 
             if not isinstance(repo_session, LazySession):  
                 continue

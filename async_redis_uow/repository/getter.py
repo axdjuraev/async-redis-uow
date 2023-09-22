@@ -8,14 +8,14 @@ from redis.exceptions import ResponseError
 class GetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]):
     __abstract__ = True
 
-    async def get(self, id, filters: str = '') -> Union[TOModel, None]:
+    async def get(self, id, filters: str = '') -> Union[TOModel, None]: 
         try: 
             obj = await self.session.json().get(
                 self.hname, 
                 Path(f'.{id}{filters}').strPath,
             ).execute()  # type: ignore
-        except ResponseError:
-            return
+        except ResponseError as e:
+            return print(str(e))
 
         return obj and self.OSchema(**obj[-1])
 
