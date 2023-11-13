@@ -2,6 +2,7 @@
 from typing import Generic, List, Optional
 from pydantic import parse_obj_as
 from redis.commands.json.path import Path
+from redis.exceptions import ResponseError
 from .types import TIModel, TOModel
 from .base import BaseRepoCreator
 
@@ -14,10 +15,14 @@ class AllGetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]
 
     async def all(self, filters: Optional[str] = None):
         filters = filters or '$.[*]'
-        objs = await self.session.json().get(
-            self.hname, 
-            Path(f'{filters}').strPath,
-        ).execute()  # type: ignore
+
+        try:
+            objs = await self.session.json().get(
+                self.hname, 
+                Path(f'{filters}').strPath,
+            ).execute()  # type: ignore
+        except ResponseError:
+            return []
 
         while objs and len(objs) == 1 and isinstance(objs[-1], list):
             objs = objs[-1]
