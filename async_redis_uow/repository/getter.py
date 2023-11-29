@@ -17,5 +17,5 @@ class GetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]):
         except ResponseError as e:
             return print(str(e))
 
-        return obj and obj[-1] and self.OSchema(**obj[-1])
+        return obj and self.OSchema(**obj[-1])
 
