@@ -13,7 +13,7 @@ class AllGetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]
     def _all_sort_key(self, obj: TOModel):
         return obj.created_at
 
-    async def all(self, filters: Optional[str] = None):
+    async def all(self, filters: Optional[str] = None, *, parse: bool = True) -> List[TOModel]:
         filters = filters or '$.[*]'
 
         try:
@@ -28,5 +28,8 @@ class AllGetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]
         except ResponseError:
             return []
 
-        return sorted(parse_obj_as(List[self.OSchema], objs), key=self._all_sort_key)
+        if parse:
+            return sorted(parse_obj_as(List[self.OSchema], objs), key=self._all_sort_key)
+        
+        return objs
 
