@@ -21,8 +21,12 @@ class AllGetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]
                 self.hname, 
                 Path(f'{filters}').strPath,
             ).execute()  # type: ignore
+
+            while objs and len(objs) == 1 and isinstance(objs[-1], list):
+                objs = objs[-1]
+
         except ResponseError:
             return []
 
-        return sorted(parse_obj_as(List[self.OSchema], objs[-1]), key=self._all_sort_key)
+        return sorted(parse_obj_as(List[self.OSchema], objs), key=self._all_sort_key)
 
