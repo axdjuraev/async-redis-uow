@@ -17,7 +17,9 @@ class PaginatedAllGetterRepo(AllGetterRepo[TIModel, TOModel], Generic[TIModel, T
         objs = await super().all(filters, parse=parse)
 
         if count and page:
-            return objs[(count or 1) * page - count:count]
+            start_point = (count or 1) * page - count
+            end_point = start_point + count
+            return objs[start_point:end_point]
 
         return objs
 
