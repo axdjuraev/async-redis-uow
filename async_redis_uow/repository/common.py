@@ -7,9 +7,11 @@ from .deleter import DeleterRepo
 from .paginated import PaginatedRepo
 from .status_updater import StatusUpdaterRepo
 from .paginated_all_getter import PaginatedAllGetterRepo
+from .base_setter import BaseSetterRepo
 
 
 class BaseRepository(
+    BaseSetterRepo[TIModel, TOModel], 
     AdderRepo[TIModel, TOModel], 
     GetterRepo[TIModel, TOModel], 
     UpdateterRepo[TIModel, TOModel], 
