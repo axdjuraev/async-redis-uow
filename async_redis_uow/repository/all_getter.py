@@ -1,5 +1,4 @@
-
-from typing import Generic, List, Optional
+from typing import Any, Callable, Generic, List, Optional
 from pydantic import parse_obj_as
 from redis.commands.json.path import Path
 from redis.exceptions import ResponseError
@@ -13,7 +12,13 @@ class AllGetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]
     def _all_sort_key(self, obj: TOModel):
         return obj.created_at
 
-    async def all(self, filters: Optional[str] = None, *, parse: bool = True) -> List[TOModel]:
+    async def all(
+        self, 
+        filters: Optional[str] = None, 
+        *, 
+        parse: bool = True, 
+        sort_func: Optional[Callable[[TOModel], Any]] = None,
+    ) -> List[TOModel]:
         filters = filters or '$.[*]'
 
         try:
@@ -29,7 +34,8 @@ class AllGetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel]
             return []
 
         if parse:
-            return sorted(parse_obj_as(List[self.OSchema], objs), key=self._all_sort_key)
+            sort_func = sort_func or self._all_sort_key
+            return sorted(parse_obj_as(List[self.OSchema], objs), key=sort_func)
         
         return objs
 
