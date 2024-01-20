@@ -1,5 +1,5 @@
 import json
-from typing import Optional, Type, Generic, Union
+from typing import Any, Callable, Optional, Type, Generic, Union
 from uuid import uuid4
 from axabc.db.async_repository import AbstractAsyncRepository
 from async_redis_uow.session_maker.session import LazySession 
@@ -25,6 +25,16 @@ class BaseRepoCreator(AbstractAsyncRepository, Generic[TIModel, TOModel]):
 
     def get_obj_id(self, obj: Union[TIModel, TOModel]):
         return _ if hasattr(obj, 'id') and (_ := getattr(obj, 'id')) else str(uuid4())
+
+    @staticmethod
+    def _isnt_last_level_list(objs: list[TIModel]):
+        return objs and len(objs) == 1 and isinstance(objs[-1], list)
+    
+    def _unwrap_till(self, objs, *, condition_func: Callable[[list[TIModel]], Any] = _isnt_last_level_list):
+        while condition_func(objs):
+            objs = objs[-1]
+
+        return objs
 
     @property
     def hname(self):
