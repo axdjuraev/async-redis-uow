@@ -11,3 +11,9 @@ class BaseSetterRepo(BaseRepoCreator[TIModel, TOModel], Generic[TIModel, TOModel
         self.session.json().set(self.hname, Path('$').strPath, obj)
         return obj
 
+    async def extend_base(self, obj: dict[str, dict]):
+        for k, v in obj.items():
+            self.session.json().set(self.hname, Path(f'${k}').strPath, v)
+
+        return obj
+
